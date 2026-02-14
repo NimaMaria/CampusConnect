@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusConnect - Bookmarks</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#ffffff;
+      --bg2:#f4faff;
+      --bg3:#e8f5ff;
+      --accent1:#3aa6ff;
+      --accent2:#1f8fff;
+      --text:#0f172a;
+      --muted:#6b7280;
+      --card:rgba(255,255,255,0.95);
+      --border:rgba(58,166,255,0.20);
+    }
+
+    body{
+      min-height:100vh;
+      background:
+        radial-gradient(900px 500px at 15% 20%, rgba(58,166,255,0.15), transparent 60%),
+        radial-gradient(900px 500px at 85% 10%, rgba(58,166,255,0.12), transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      color:var(--text);
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(58,166,255,0.15);
+      box-shadow:0 10px 25px rgba(58,166,255,0.10);
+      border-radius:18px;
+    }
+
+    .brand{font-weight:900;}
+    .muted{color:var(--muted);}
+
+    .btn-gradient{
+      border:none;
+      color:#fff;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      font-weight:800;
+    }
+
+    .events-list{display:flex; flex-direction:column; gap:12px; margin-top:10px;}
+
+    .event-row{
+      display:flex; gap:12px; align-items:center;
+      background:var(--card);
+      border:1px solid rgba(58,166,255,0.15);
+      border-radius:18px;
+      overflow:hidden;
+      cursor:pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .event-row:hover{ transform: translateY(-2px); box-shadow:0 8px 20px rgba(58,166,255,0.15); }
+
+    .event-poster{ width:160px; min-width:160px; height:110px; background: rgba(240,248,255,0.9); display:flex; align-items:center; justify-content:center; font-weight:900; color:rgba(15,23,42,0.55); overflow:hidden; }
+    .event-poster img{ width:100%; height:100%; object-fit:contain; display:block; }
+
+    .event-info{ flex:1; padding:14px 10px 14px 0; }
+    .event-title{ margin:0; font-weight:900; font-size:18px; }
+    .meta-line{ margin-top:6px; font-size:13px; color:var(--muted); display:flex; gap:10px; flex-wrap:wrap; }
+
+    .pill{ display:inline-flex; gap:6px; padding:6px 10px; border-radius:999px; border:1px solid rgba(58,166,255,0.20); background:rgba(58,166,255,0.08); font-size:12px; font-weight:800; }
+
+    .domain-chip{
+      color:#fff; font-weight:900; padding:8px 14px; border-radius:999px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      font-size:12px;
+    }
+
+    .remove-wrap{ padding:10px 12px 10px 0; }
+    .remove-btn{
+      border:1px solid rgba(239,68,68,0.35);
+      background:rgba(239,68,68,0.08);
+      font-weight:900;
+      border-radius:12px;
+      padding:8px 12px;
+    }
+
+    /* Modal */
+    .modal-poster{ width:100%; border-radius:14px; overflow:hidden; border:1px solid rgba(58,166,255,0.20); background: rgba(240,248,255,0.9); max-height:70vh; }
+    .modal-poster img{ width:100%; height:auto; display:block; max-height:70vh; object-fit:contain; }
+    .modal-content-scroll{ max-height:260px; overflow:auto; white-space:pre-wrap; color:rgba(15,23,42,0.9); }
+
+    .register-btn{
+      padding: 14px 36px;
+      font-size: 17px;
+      font-weight: 900;
+      border-radius: 14px;
+      min-width: 240px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      color:#fff;
+      border:none;
+      text-decoration:none;
+      display:inline-block;
+      box-shadow:0 8px 18px rgba(58,166,255,0.25);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar sticky-top" style="background: rgba(255,255,255,0.70); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(58,166,255,0.18);">
+  <div class="container py-1 d-flex align-items-center justify-content-between gap-3">
+    <a class="navbar-brand brand fs-4 text-decoration-none text-dark" href="/user">CampusConnect</a>
+
+    <div class="d-flex align-items-center gap-2">
+      <a class="btn btn-outline-dark" href="/user">Home</a>
+      <a class="btn btn-gradient" href="/bookmarks">Bookmarks</a>
+    </div>
+  </div>
+</nav>
+
+
+  <main class="container py-4">
+    <section class="glass p-3 p-md-4">
+      <h1 class="h4 mb-1" style="font-weight:900;">Bookmarked Events</h1>
+      <div class="muted">Your saved events are here</div>
+
+      <div class="events-list" id="eventsList"></div>
+      <div class="muted mt-2" id="emptyState" style="display:none;">No bookmarks yet.</div>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal fade" id="eventModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content" style="border-radius:18px; overflow:hidden;">
+        <div class="modal-header">
+          <div>
+            <h5 class="modal-title" id="modalTitle" style="font-weight:900; margin:0;">Event</h5>
+            <div class="mt-1" id="modalMeta" style="font-size:13px; color:#64748b;"></div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-poster mb-3" id="modalPoster"></div>
+
+          <div class="fw-bold mb-1">Content</div>
+          <div class="modal-content-scroll" id="modalContent"></div>
+
+          <div class="mt-4 text-center">
+            <a id="registerBtn" class="register-btn" href="#" target="_blank" rel="noopener" style="display:none;">
+              Register Now
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let eventsById = {};
+
+    function getBookmarks(){
+      try { return JSON.parse(localStorage.getItem("campusconnect_bookmarks") || "[]"); }
+      catch { return []; }
+    }
+    function setBookmarks(arr){
+      localStorage.setItem("campusconnect_bookmarks", JSON.stringify(arr));
+    }
+    function removeBookmark(id){
+      const sid = String(id);
+      const arr = getBookmarks().filter(x => x !== sid);
+      setBookmarks(arr);
+      render();
+    }
+
+    function formatDate(iso){
+      if(!iso) return "";
+      const d = new Date(iso + "T00:00:00");
+      return d.toLocaleDateString(undefined, { year:"numeric", month:"short", day:"numeric" });
+    }
+
+    function safeLink(link){
+      link = (link || "").trim();
+      if(!link) return "";
+      if(!link.startsWith("http://") && !link.startsWith("https://")) link = "https://" + link;
+      return link;
+    }
+
+    function rowHTML(ev){
+      const poster = ev.poster_url ? `<img src="${ev.poster_url}" alt="poster">` : `<div>${ev.domain || "Poster"}</div>`;
+      return `
+        <div class="event-row" data-id="${ev.id}">
+          <div class="event-poster">${poster}</div>
+
+          <div class="event-info">
+            <p class="event-title">${ev.name || "Event"}</p>
+            <div class="meta-line">
+              <span class="pill">📅 ${formatDate(ev.date) || "-"}</span>
+              <span class="pill">⏰ ${ev.time || "-"}</span>
+            </div>
+          </div>
+
+          <div style="padding:10px 0;">
+            <span class="domain-chip">${ev.domain || "Domain"}</span>
+          </div>
+
+          <div class="remove-wrap">
+            <button type="button" class="remove-btn" data-remove-id="${ev.id}">Remove</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function openEventModal(ev){
+      document.getElementById("modalTitle").textContent = ev.name || "Event";
+      document.getElementById("modalMeta").textContent =
+        `${formatDate(ev.date)}${ev.time ? " • " + ev.time : ""} • ${ev.domain || ""}`.trim();
+
+      const poster = document.getElementById("modalPoster");
+      poster.innerHTML = ev.poster_url
+        ? `<img src="${ev.poster_url}" alt="poster">`
+        : `<div style="padding:60px 0; text-align:center; font-weight:900; color:rgba(15,23,42,0.55);">
+            ${ev.domain || "Poster"}
+          </div>`;
+
+      document.getElementById("modalContent").textContent = ev.content || "";
+
+      const registerBtn = document.getElementById("registerBtn");
+      const link = safeLink(ev.reg_link);
+      if(link){
+        registerBtn.href = link;
+        registerBtn.style.display = "inline-block";
+      } else {
+        registerBtn.style.display = "none";
+      }
+
+      new bootstrap.Modal(document.getElementById("eventModal")).show();
+    }
+
+    async function loadAllEvents(){
+      const res = await fetch("/api/events?domain=All");
+      const data = await res.json();
+      eventsById = {};
+      data.forEach(ev => eventsById[String(ev.id)] = ev);
+    }
+
+    async function render(){
+      await loadAllEvents();
+
+      const ids = getBookmarks();
+      const list = document.getElementById("eventsList");
+
+      const events = ids.map(id => eventsById[id]).filter(Boolean);
+
+      list.innerHTML = events.map(rowHTML).join("");
+      document.getElementById("emptyState").style.display = events.length ? "none" : "block";
+    }
+
+    document.addEventListener("click", (e) => {
+      const rem = e.target.closest("[data-remove-id]");
+      if(rem){
+        e.stopPropagation();
+        removeBookmark(rem.getAttribute("data-remove-id"));
+        return;
+      }
+
+      const row = e.target.closest(".event-row");
+      if(row){
+        const id = row.getAttribute("data-id");
+        const ev = eventsById[id];
+        if(ev) openEventModal(ev);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", render);
+  </script>
+</body>
+</html>
