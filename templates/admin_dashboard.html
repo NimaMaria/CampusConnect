@@ -220,9 +220,12 @@
 
 <body>
   <nav class="navbar sticky-top" style="background: rgba(255,255,255,0.60); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(15,23,42,0.10);">
-    <div class="container py-1">
-      <span class="navbar-brand brand">CampusConnect - Admin</span>
-      <span class="muted" style="font-size:13px;">Add events for students</span>
+    <div class="container py-1 d-flex justify-content-between align-items-center">
+      <div>
+        <span class="navbar-brand brand">CampusConnect - Admin</span>
+        <span class="muted" style="font-size:13px;">Add events for students</span>
+      </div>
+      <button class="btn btn-danger" onclick="logout()">Logout</button>
     </div>
   </nav>
 
@@ -320,14 +323,11 @@
           <div class="modal-content-scroll" id="modalContent"></div>
 
           <div class="mt-4 text-center">
-            <a id="registerBtn"
+            <button id="editBtn"
                class="register-btn"
-               href="#"
-               target="_blank"
-               rel="noopener"
                style="display:none;">
-              Register Now
-            </a>
+              ✏️ Edit Event
+            </button>
           </div>
         </div>
 
@@ -340,6 +340,18 @@
   <script>
     let eventsById = {};
     let toastTimer = null;
+    let currentEditId = null;  // ✅ Track which event is being edited
+
+    // ✅ Logout function
+    async function logout(){
+      try {
+        await fetch("/api/auth/logout", { method: "POST" });
+        window.location.href = "/admin";
+      } catch (e) {
+        console.error(e);
+        window.location.href = "/admin";
+      }
+    }
 
     function showToast(text, type="success"){
       const el = document.getElementById("toastMsg");
@@ -364,6 +376,10 @@
     function clearForm(){
       ["name","date","time","domain","reg_link","content"].forEach(id => document.getElementById(id).value = "");
       document.getElementById("poster").value = "";
+      // Reset form heading and button
+      document.querySelector(".h5").textContent = "Add Event";
+      document.getElementById("submitBtn").textContent = "Submit";
+      window.isEditMode = false;
     }
 
     function formatDate(iso){
@@ -403,6 +419,7 @@
     }
 
     function openEventModal(ev){
+      currentEditId = ev.id;  // ✅ Store event ID for editing
       document.getElementById("modalTitle").textContent = ev.name || "Event";
       document.getElementById("modalMeta").textContent =
         `${formatDate(ev.date)}${ev.time ? " • " + ev.time : ""} • ${ev.domain || ""}`.trim();
@@ -416,18 +433,92 @@
 
       document.getElementById("modalContent").textContent = ev.content || "";
 
-      const registerBtn = document.getElementById("registerBtn");
-      let link = (ev.reg_link || "").trim();
-
-      if(link){
-        if(!link.startsWith("http")) link = "https://" + link;
-        registerBtn.href = link;
-        registerBtn.style.display = "inline-block";
-      } else {
-        registerBtn.style.display = "none";
-      }
+      const editBtn = document.getElementById("editBtn");
+      editBtn.style.display = "inline-block";
+      editBtn.onclick = () => editEvent(ev);
 
       new bootstrap.Modal(document.getElementById("eventModal")).show();
+    }
+
+    // ✅ Edit event handler
+    function editEvent(ev){
+      // Close modal
+      bootstrap.Modal.getInstance(document.getElementById("eventModal")).hide();
+
+      // Populate form with event details
+      document.getElementById("name").value = ev.name || "";
+      document.getElementById("date").value = ev.date || "";
+      document.getElementById("time").value = ev.time || "";
+      document.getElementById("domain").value = ev.domain || "";
+      document.getElementById("content").value = ev.content || "";
+      document.getElementById("reg_link").value = ev.reg_link || "";
+      // Note: poster cannot be pre-set for security reasons, user must re-upload if needed
+
+      // Change form heading and button
+      document.querySelector(".h5").textContent = "Edit Event";
+      const submitBtn = document.getElementById("submitBtn");
+      submitBtn.textContent = "Update Event";
+      submitBtn.onclick = () => updateEvent(ev.id);
+
+      // Show form
+      openForm();
+
+      // Store edit mode flag
+      window.isEditMode = true;
+      window.editEventId = ev.id;
+    }
+
+    // ✅ Update event
+    async function updateEvent(eventId){
+      const submitBtn = document.getElementById("submitBtn");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Updating...";
+
+      const name = document.getElementById("name").value.trim();
+      const date = document.getElementById("date").value.trim();
+      const time = document.getElementById("time").value.trim();
+      const domain = document.getElementById("domain").value.trim();
+      const content = document.getElementById("content").value.trim();
+      const reg_link = document.getElementById("reg_link").value.trim();
+      const posterFile = document.getElementById("poster").files[0];
+
+      if(!name){ showToast("Event name is required", "warning"); submitBtn.disabled=false; submitBtn.textContent="Update Event"; return; }
+      if(!date){ showToast("Date is required", "warning"); submitBtn.disabled=false; submitBtn.textContent="Update Event"; return; }
+      if(!domain){ showToast("Domain is required", "warning"); submitBtn.disabled=false; submitBtn.textContent="Update Event"; return; }
+      if(!reg_link){ showToast("Registration link is required", "warning"); submitBtn.disabled=false; submitBtn.textContent="Update Event"; return; }
+
+      const fd = new FormData();
+      fd.append("name", name);
+      fd.append("date", date);
+      fd.append("time", time);
+      fd.append("domain", domain);
+      fd.append("content", content);
+      fd.append("reg_link", reg_link);
+      if(posterFile) fd.append("poster", posterFile);
+
+      try{
+        const res = await fetch(`/api/events/${eventId}`, { method:"PUT", body: fd });
+        const json = await res.json();
+
+        if(res.ok){
+          showToast("✅ Event updated", "success");
+          await loadEvents();
+          clearForm();
+          closeForm();
+          // Reset form heading
+          document.querySelector(".h5").textContent = "Add Event";
+          document.getElementById("submitBtn").textContent = "Submit";
+          window.isEditMode = false;
+        }else{
+          showToast("❌ " + (json.error || "Update failed"), "danger");
+        }
+      }catch(err){
+        showToast("❌ Update failed", "danger");
+        console.error(err);
+      }finally{
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Update Event";
+      }
     }
 
     async function loadEvents(){
@@ -518,8 +609,20 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("openFormBtn").addEventListener("click", openForm);
-      document.getElementById("submitBtn").addEventListener("click", addEvent);
+      document.getElementById("openFormBtn").addEventListener("click", () => {
+        clearForm(); // Reset form when opening new event form
+        openForm();
+      });
+
+      // Smart submit button - handles both add and edit
+      document.getElementById("submitBtn").addEventListener("click", () => {
+        if(window.isEditMode){
+          updateEvent(window.editEventId);
+        } else {
+          addEvent();
+        }
+      });
+
       document.getElementById("cancelBtn").addEventListener("click", () => { clearForm(); closeForm(); });
 
       loadEvents();

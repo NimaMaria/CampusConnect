@@ -146,7 +146,7 @@ padding:40px;
 <div class="left">
     <div class="left-content">
         <h1>Admin Panel Access</h1>
-        <img src="admin.png" alt="Campus Illustration">
+        <img src="/static/admin.png" alt="Campus Illustration">
         <p>Manage and Organize Campus Events Easily</p>
     </div>
 </div>
@@ -169,25 +169,38 @@ padding:40px;
 
 <script>
 
-function adminLogin(){
+async function adminLogin(){
 
 const username = document.getElementById("adminUsername").value.trim();
 const password = document.getElementById("adminPassword").value.trim();
 const message = document.getElementById("adminMessage");
 
-/* Change these */
-const ADMIN_USER = "admin";
-const ADMIN_PASS = "12345";
-
-if(username === ADMIN_USER && password === ADMIN_PASS){
-message.style.color = "green";
-message.innerText = "Login successful!";
-setTimeout(()=>{
-window.location.href="admin-dashboard.html";
-},1000);
-}else{
+if(username === "" || password === ""){
 message.style.color = "red";
-message.innerText = "Invalid credentials!";
+message.innerText = "Please fill all fields.";
+return;
+}
+
+try {
+  const response = await fetch("/api/auth/admin-login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password })
+  });
+
+  const data = await response.json();
+
+  if(response.ok){
+    message.style.color = "green";
+    message.innerText = "Login successful!";
+    setTimeout(() => window.location.href="/admin-dashboard", 1500);
+  } else {
+    message.style.color = "red";
+    message.innerText = data.error || "Invalid credentials";
+  }
+} catch (err) {
+  message.style.color = "red";
+  message.innerText = "Network error. Try again.";
 }
 
 }

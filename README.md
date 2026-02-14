@@ -1,28 +1,46 @@
+# 📅 CampusConnect
+
+**The Ultimate Campus Event Management Platform**
+
 <p align="center">
-  <img src="./img.png" alt="Project Banner" width="100%">
+  <strong>Discover • Create • Celebrate Campus Events</strong>
 </p>
 
-# [Project Name] 🎯
+## Overview
+
+**CampusConnect** is a comprehensive web-based platform designed to help students and administrators discover, organize, and manage campus events effortlessly. Instead of searching across multiple platforms and social media groups, students can access all campus events from one clean, intuitive dashboard.
 
 ## Basic Details
 
-### Team Name: [Name]
+### Project Name
+CampusConnect - Campus Event Management Platform
 
 ### Team Members
-- Member 1: [Name] - [College]
-- Member 2: [Name] - [College]
+- Team Lead: [Your Name] - [College]
+- Developer: [Team Member Name] - [College]
+- UI/UX Designer: [Team Member Name] - [College]
 
 ### Hosted Project Link
-[mention your project hosted link here]
+Local Hosting: `http://localhost:5000`
 
 ### Project Description
-[2-3 lines about what your project does]
+CampusConnect is a centralized event management platform that helps students discover, bookmark, and register for campus events. Admins can easily create, edit, and manage events with automatic cleanup of past events.
 
-### The Problem statement
-[What problem are you solving?]
+### Problem Statement
+- Campus events information is scattered across WhatsApp groups, social media, emails, and notices
+- Students struggle to find relevant events in one place
+- Event details are often incomplete or outdated
+- No centralized registration system
+- Event information gets lost in multiple platforms
 
-### The Solution
-[How are you solving it?]
+### Solution
+CampusConnect provides:
+- **Centralized Event Platform:** All campus events in one dashboard
+- **Smart Filtering:** Events filtered by Tech, Cultural, Fun, Sports categories
+- **Admin Tools:** Easy event management with CRUD operations
+- **Auto-Cleanup:** Expired events automatically deleted
+- **Bookmarks:** Students can save favorite events
+- **Session Security:** Secure user and admin authentication
 
 ---
 
@@ -31,390 +49,479 @@
 ### Technologies/Components Used
 
 **For Software:**
-- Languages used: [e.g., JavaScript, Python, Java]
-- Frameworks used: [e.g., React, Django, Spring Boot]
-- Libraries used: [e.g., axios, pandas, JUnit]
-- Tools used: [e.g., VS Code, Git, Docker]
-
-**For Hardware:**
-- Main components: [List main components]
-- Specifications: [Technical specifications]
-- Tools required: [List tools needed]
+- **Languages:** HTML5, CSS3, JavaScript (Vanilla), Python 3
+- **Backend Framework:** Flask (Python web framework)
+- **Frontend Framework:** Bootstrap 5.3.3, Custom CSS (Glass-morphism)
+- **Database:** SQLite3
+- **Libraries & Tools:**
+  - Werkzeug (file upload handling)
+  - UUID (unique file naming)
+  - JSON (API responses)
+- **Tools:** VS Code, Git, Windows PowerShell, SQLite Browser
+- **APIs:** RESTful API with JSON responses
 
 ---
 
 ## Features
 
-List the key features of your project:
-- Feature 1: [Description]
-- Feature 2: [Description]
-- Feature 3: [Description]
-- Feature 4: [Description]
+### ✨ User Features
+- ✅ **User Registration & Login:** Secure signup with phone number & password
+- ✅ **Event Discovery:** Browse all campus events with posters
+- ✅ **Category Filtering:** Filter events by Tech, Cultural, Fun, Sports
+- ✅ **Event Details Modal:** View full event information and posters
+- ✅ **Bookmarks System:** Save favorite events to localStorage
+- ✅ **Quick Registration:** Direct links to event registration forms
+- ✅ **Session Management:** 7-day persistent login sessions
+- ✅ **Responsive Design:** Mobile-friendly interface
+- ✅ **Logout Function:** Secure session termination
+
+### 🛠️ Admin Features
+- ✅ **Secure Admin Login:** Username/password protected access
+- ✅ **Create Events:** Add new events with posters (PNG, JPG, JPEG, WEBP)
+- ✅ **Edit Events:** Modify any event details anytime
+- ✅ **Delete Events:** Remove events with confirmation
+- ✅ **Event Details Form:** Name, Date, Time, Domain, Content, Registration Link
+- ✅ **Poster Management:** Upload, update, auto-cleanup of poster images
+- ✅ **Event List View:** See all events with quick actions
+- ✅ **Modal View:** Detailed event information display
+
+### ⚡ System Features
+- ✅ **Auto-Cleanup:** Automatically deletes events when date < today
+- ✅ **File Management:** Secure file uploads with UUID naming
+- ✅ **Database Validation:** Parameterized queries prevent SQL injection
+- ✅ **Session Security:** Server-side session management
+- ✅ **Responsive Layout:** Works on desktop, tablet, mobile devices
+- ✅ **Toast Notifications:** Success/error messages with auto-hide
+- ✅ **WAL Database Mode:** Prevents database locking issues
+- ✅ **Poster Cleanup:** Deletes old poster files when updating events
 
 ---
 
 ## Implementation
 
-### For Software:
+### Installation & Setup
 
-#### Installation
-```bash
-[Installation commands - e.g., npm install, pip install -r requirements.txt]
+**Step 1: Install Python & Flask**
+```powershell
+# Check Python installation
+python --version
+
+# Install Flask
+pip install flask
 ```
 
-#### Run
-```bash
-[Run commands - e.g., npm start, python app.py]
+**Step 2: Create uploads folder**
+```powershell
+# Navigate to project directory
+cd "C:\Users\Nima Maria Jacob\OneDrive\Desktop\CampusConnect\CampusConnect"
+
+# Create uploads directory
+New-Item -ItemType Directory -Path "static\uploads" -Force
 ```
 
-### For Hardware:
+**Step 3: Run the application**
+```powershell
+# Start Flask development server
+python app.py
 
-#### Components Required
-[List all components needed with specifications]
+# Expected output:
+# * Running on http://127.0.0.1:5000
+# * Press CTRL+C to quit
+```
 
-#### Circuit Setup
-[Explain how to set up the circuit]
+**Step 4: Access the application**
+```
+Open browser → http://localhost:5000
+```
 
 ---
 
-## Project Documentation
+## User Guide
 
-### For Software:
+### 📱 For Students (Users)
 
-#### Screenshots (Add at least 3)
+#### Registration & Login
+1. Visit **http://localhost:5000**
+2. Click **"Enter as User"** → **"Sign up"**
+3. Enter Phone Number: `0123456789` (or your own)
+4. Enter Password: `password123` (min 6 characters)
+5. Click **"Create Account"**
+6. Login with your credentials
 
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+#### Browse Events
+1. You're now on **User Dashboard**
+2. Use the **Domain Filter** dropdown:
+   - **All** - See all events
+   - **Tech** - Technology events
+   - **Cultural** - Cultural programs
+   - **Fun** - Entertainment
+   - **Sports** - Sports activities
+3. Click on event card to view details
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+#### Bookmark Events
+- Click the **star (☆)** on any event to bookmark
+- Star fills **★** when saved
+- Go to **"Bookmarks"** to view saved events
+- Click star again to remove
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+#### Register & Logout
+- Click **"Register Now"** button to go to registration form
+- Click **"Logout"** to end session
 
-#### Diagrams
+### 👨‍💼 For Admins
 
-**System Architecture:**
+#### Admin Login
+1. Visit **http://localhost:5000**
+2. Click **"Enter as Admin"**
+3. Username: `admin`
+4. Password: `12345`
+5. Click **"Login"**
 
-![Architecture Diagram](docs/architecture.png)
-*Explain your system architecture - components, data flow, tech stack interaction*
+#### Create Event
+1. Click **"+ Add Event"** button
+2. Fill form fields:
+   - **Event Name:** e.g., "Tech Talk 2026"
+   - **Date:** `YYYY-MM-DD` (e.g., 2026-02-20)
+   - **Time:** e.g., "10:00 AM"
+   - **Domain:** Choose Tech/Cultural/Fun/Sports
+   - **Poster:** Upload image file
+   - **Content:** Event description
+   - **Registration Link:** Form/link URL
+3. Click **"Submit"**
 
-**Application Workflow:**
+#### Edit Event
+1. Click on event in **"ALL EVENTS"** section
+2. Modal appears with event details
+3. Click **"✏️ Edit Event"** button
+4. Form auto-fills with current details
+5. Make changes (can update poster)
+6. Click **"Update Event"**
 
-![Workflow](docs/workflow.png)
-*Add caption explaining your workflow*
+#### Delete Event
+1. Find event in **"ALL EVENTS"**
+2. Click **trash icon (🗑)** on right
+3. Confirm deletion
+4. Event removed immediately
 
 ---
 
-### For Hardware:
+## Database Schema
 
-#### Schematic & Circuit
-
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-#### Build Photos
-
-![Team](Add photo of your team here)
-
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
-
----
-
-## Additional Documentation
-
-### For Web Projects with Backend:
-
-#### API Documentation
-
-**Base URL:** `https://api.yourproject.com`
-
-##### Endpoints
-
-**GET /api/endpoint**
-- **Description:** [What it does]
-- **Parameters:**
-  - `param1` (string): [Description]
-  - `param2` (integer): [Description]
-- **Response:**
-```json
-{
-  "status": "success",
-  "data": {}
-}
+### events Table
+```sql
+CREATE TABLE events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    date TEXT NOT NULL,
+    time TEXT,
+    domain TEXT NOT NULL,
+    reg_link TEXT NOT NULL,
+    content TEXT,
+    poster_url TEXT
+);
 ```
 
-**POST /api/endpoint**
-- **Description:** [What it does]
+### users Table
+```sql
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    phone TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+);
+```
+
+---
+
+## API Documentation
+
+### Base URL
+`http://localhost:5000`
+
+### Authentication Endpoints
+
+**POST /api/auth/signup**
+- Create new user account
 - **Request Body:**
 ```json
 {
-  "field1": "value1",
-  "field2": "value2"
+  "phone": "0123456789",
+  "password": "password123"
 }
 ```
-- **Response:**
+- **Response:** `{ "message": "Account created successfully" }`
+
+**POST /api/auth/login**
+- Login and create session
+- **Request Body:**
 ```json
 {
-  "status": "success",
-  "message": "Operation completed"
+  "phone": "0123456789",
+  "password": "password123"
 }
 ```
+- **Response:** `{ "message": "Login successful" }`
 
-[Add more endpoints as needed...]
-
----
-
-### For Mobile Apps:
-
-#### App Flow Diagram
-
-![App Flow](docs/app-flow.png)
-*Explain the user flow through your application*
-
-#### Installation Guide
-
-**For Android (APK):**
-1. Download the APK from [Release Link]
-2. Enable "Install from Unknown Sources" in your device settings:
-   - Go to Settings > Security
-   - Enable "Unknown Sources"
-3. Open the downloaded APK file
-4. Follow the installation prompts
-5. Open the app and enjoy!
-
-**For iOS (IPA) - TestFlight:**
-1. Download TestFlight from the App Store
-2. Open this TestFlight link: [Your TestFlight Link]
-3. Click "Install" or "Accept"
-4. Wait for the app to install
-5. Open the app from your home screen
-
-**Building from Source:**
-```bash
-# For Android
-flutter build apk
-# or
-./gradlew assembleDebug
-
-# For iOS
-flutter build ios
-# or
-xcodebuild -workspace App.xcworkspace -scheme App -configuration Debug
-```
-
----
-
-### For Hardware Projects:
-
-#### Bill of Materials (BOM)
-
-| Component | Quantity | Specifications | Price | Link/Source |
-|-----------|----------|----------------|-------|-------------|
-| Arduino Uno | 1 | ATmega328P, 16MHz | ₹450 | [Link] |
-| LED | 5 | Red, 5mm, 20mA | ₹5 each | [Link] |
-| Resistor | 5 | 220Ω, 1/4W | ₹1 each | [Link] |
-| Breadboard | 1 | 830 points | ₹100 | [Link] |
-| Jumper Wires | 20 | Male-to-Male | ₹50 | [Link] |
-| [Add more...] | | | | |
-
-**Total Estimated Cost:** ₹[Amount]
-
-#### Assembly Instructions
-
-**Step 1: Prepare Components**
-1. Gather all components listed in the BOM
-2. Check component specifications
-3. Prepare your workspace
-![Step 1](images/assembly-step1.jpg)
-*Caption: All components laid out*
-
-**Step 2: Build the Power Supply**
-1. Connect the power rails on the breadboard
-2. Connect Arduino 5V to breadboard positive rail
-3. Connect Arduino GND to breadboard negative rail
-![Step 2](images/assembly-step2.jpg)
-*Caption: Power connections completed*
-
-**Step 3: Add Components**
-1. Place LEDs on breadboard
-2. Connect resistors in series with LEDs
-3. Connect LED cathodes to GND
-4. Connect LED anodes to Arduino digital pins (2-6)
-![Step 3](images/assembly-step3.jpg)
-*Caption: LED circuit assembled*
-
-**Step 4: [Continue for all steps...]**
-
-**Final Assembly:**
-![Final Build](images/final-build.jpg)
-*Caption: Completed project ready for testing*
-
----
-
-### For Scripts/CLI Tools:
-
-#### Command Reference
-
-**Basic Usage:**
-```bash
-python script.py [options] [arguments]
-```
-
-**Available Commands:**
-- `command1 [args]` - Description of what command1 does
-- `command2 [args]` - Description of what command2 does
-- `command3 [args]` - Description of what command3 does
-
-**Options:**
-- `-h, --help` - Show help message and exit
-- `-v, --verbose` - Enable verbose output
-- `-o, --output FILE` - Specify output file path
-- `-c, --config FILE` - Specify configuration file
-- `--version` - Show version information
-
-**Examples:**
-
-```bash
-# Example 1: Basic usage
-python script.py input.txt
-
-# Example 2: With verbose output
-python script.py -v input.txt
-
-# Example 3: Specify output file
-python script.py -o output.txt input.txt
-
-# Example 4: Using configuration
-python script.py -c config.json --verbose input.txt
-```
-
-#### Demo Output
-
-**Example 1: Basic Processing**
-
-**Input:**
-```
-This is a sample input file
-with multiple lines of text
-for demonstration purposes
-```
-
-**Command:**
-```bash
-python script.py sample.txt
-```
-
-**Output:**
-```
-Processing: sample.txt
-Lines processed: 3
-Characters counted: 86
-Status: Success
-Output saved to: output.txt
-```
-
-**Example 2: Advanced Usage**
-
-**Input:**
+**POST /api/auth/admin-login**
+- Admin authentication
+- **Request Body:**
 ```json
 {
-  "name": "test",
-  "value": 123
+  "username": "admin",
+  "password": "12345"
 }
 ```
+- **Response:** `{ "message": "Admin login successful" }`
 
-**Command:**
-```bash
-python script.py -v --format json data.json
-```
+**POST /api/auth/logout**
+- End user session
+- **Response:** `{ "message": "Logged out successfully" }`
 
-**Output:**
+### Events Endpoints
+
+**GET /api/events**
+- Retrieve events with optional filtering
+- **Query Parameters:** `domain=All|Tech|Cultural|Fun|Sports`
+- **Response:** Array of event objects with all details
+
+**POST /api/events** (Admin only)
+- Create new event
+- **Form Data:** name, date, time, domain, content, reg_link, poster (file)
+- **Response:** `{ "message": "Event added successfully", "id": 1 }`
+
+**PUT /api/events/<event_id>** (Admin only)
+- Update existing event
+- **Form Data:** name, date, time, domain, content, reg_link, poster (optional)
+- **Response:** `{ "message": "Event updated successfully" }`
+
+**DELETE /api/events/<event_id>** (Admin only)
+- Delete event
+- **Response:** `{ "message": "Event deleted successfully" }`
+
+---
+
+## Project Structure
+
 ```
-[VERBOSE] Loading configuration...
-[VERBOSE] Parsing JSON input...
-[VERBOSE] Processing data...
-{
-  "status": "success",
-  "processed": true,
-  "result": {
-    "name": "test",
-    "value": 123,
-    "timestamp": "2024-02-07T10:30:00"
-  }
-}
-[VERBOSE] Operation completed in 0.23s
+CampusConnect/
+├── app.py                          # Flask application & API routes
+├── campusconnect.db               # SQLite database (auto-created)
+├── README.md                       # Documentation (this file)
+├── SETUP_GUIDE.md                 # Quick setup guide
+├── create_test_user.py            # Test user creation script
+├── static/
+│   └── uploads/                   # Event poster storage
+└── templates/
+    ├── index.html                 # Landing page
+    ├── login.html                 # User login/signup
+    ├── admin.html                 # Admin login
+    ├── user_dashboard.html        # User event browser & bookmarks
+    ├── admin_dashboard.html       # Admin event management
+    ├── bookmarks.html             # Saved events view
+    └── info.html                  # About & contact page
 ```
 
 ---
 
-## Project Demo
+## Test Credentials
 
-### Video
-[Add your demo video link here - YouTube, Google Drive, etc.]
+### Test User
+- **Phone:** `0123456789`
+- **Password:** `password123`
+- **Auto-created:** When app starts for first time
 
-*Explain what the video demonstrates - key features, user flow, technical highlights*
-
-### Additional Demos
-[Add any extra demo materials/links - Live site, APK download, online demo, etc.]
-
----
-
-## AI Tools Used (Optional - For Transparency Bonus)
-
-If you used AI tools during development, document them here for transparency:
-
-**Tool Used:** [e.g., GitHub Copilot, v0.dev, Cursor, ChatGPT, Claude]
-
-**Purpose:** [What you used it for]
-- Example: "Generated boilerplate React components"
-- Example: "Debugging assistance for async functions"
-- Example: "Code review and optimization suggestions"
-
-**Key Prompts Used:**
-- "Create a REST API endpoint for user authentication"
-- "Debug this async function that's causing race conditions"
-- "Optimize this database query for better performance"
-
-**Percentage of AI-generated code:** [Approximately X%]
-
-**Human Contributions:**
-- Architecture design and planning
-- Custom business logic implementation
-- Integration and testing
-- UI/UX design decisions
-
-*Note: Proper documentation of AI usage demonstrates transparency and earns bonus points in evaluation!*
+### Admin Account
+- **Username:** `admin`
+- **Password:** `12345`
+- **Static:** Change in app.py if needed
 
 ---
 
-## Team Contributions
+## Configuration
 
-- [Name 1]: [Specific contributions - e.g., Frontend development, API integration, etc.]
-- [Name 2]: [Specific contributions - e.g., Backend development, Database design, etc.]
-- [Name 3]: [Specific contributions - e.g., UI/UX design, Testing, Documentation, etc.]
+### Change Admin Credentials
+Edit `app.py` (around line 165):
+```python
+ADMIN_USER = "admin"      # Change username
+ADMIN_PASS = "12345"      # Change password
+```
+
+### Change Test User Phone
+Edit `app.py` (around line 82):
+```python
+cur.execute("INSERT INTO users (phone, password) VALUES (?, ?)", 
+           ("0123456789", "password123"))  # Change phone number
+```
+
+### Adjust Session Timeout
+Edit `app.py` (line 11):
+```python
+app.permanent_session_lifetime = timedelta(days=7)  # Change 7 to any number
+```
+
+### File Upload Size Limit
+Edit `app.py` (line 12):
+```python
+app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16MB max size
+```
+
+---
+
+## Key Technologies
+
+- **Frontend:** HTML5, CSS3, JavaScript, Bootstrap 5
+- **Backend:** Python, Flask
+- **Database:** SQLite3
+- **Authentication:** Server-side sessions
+- **File Upload:** Werkzeug secure_filename
+- **UI Effects:** CSS animations, glass-morphism design
+
+---
+
+## Features Highlights
+
+### 🎯 Smart Auto-Cleanup
+- Automatically deletes events when date < today
+- Removes associated poster images
+- Runs on app startup and every dashboard load
+
+### 🎨 Modern UI/UX
+- Glass-morphism design with gradients
+- Smooth animations and transitions
+- Responsive mobile-first layout
+- Toast notifications for feedback
+
+### 🔒 Security
+- Secure password storage (store in DB)
+- Input validation and sanitization
+- SQL injection prevention
+- Secure file uploads with UUID naming
+
+### ⚡ Performance
+- WAL database mode to prevent locking
+- Optimized queries with indexes
+- Asynchronous form submissions
+- Lazy-loaded Bootstrap components
+
+---
+
+## Troubleshooting
+
+### "Port 5000 already in use"
+```powershell
+# Flask auto-switches to 5001
+python app.py
+# Or specify different port via environment
+```
+
+### "Database locked" error
+```powershell
+# Delete corrupted database
+Remove-Item campusconnect.db
+# Restart app - new DB will be created
+python app.py
+```
+
+### "Poster upload fails"
+1. Verify `static/uploads/` folder exists
+2. Check file is PNG, JPG, JPEG, or WEBP
+3. File size must be < 16MB
+4. Check folder write permissions
+
+### "Login not working"
+1. Clear browser cache/cookies
+2. Check browser console (F12) for errors
+3. Ensure Flask server is running
+4. Verify correct credentials
+
+### "Events not showing"
+1. Refresh page (Ctrl+F5)
+2. Check network tab in browser tools
+3. Verify events aren't expired
+4. Check console for JS errors
+
+---
+
+## Future Enhancements
+
+🚀 Planned features for v2.0:
+- 📧 Email notifications for event reminders
+- 📊 Admin analytics dashboard with event stats
+- 📱 Mobile app (React Native/Flutter)
+- 🗺️ Location mapping with Google Maps
+- 💬 User comments and reviews on events
+- 🎫 Advanced ticketing system
+- 📅 iCal export for calendar integration
+- 🔍 Advanced search with full-text search
+- 👥 User profile management
+- 🔔 Push notifications
+- 🌙 Dark mode theme
+- 🏆 Leaderboard/gamification
+
+---
+
+## Contributing
+
+Contributions are welcome! Follow these steps:
+
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feature/new-feature`
+3. **Commit** changes: `git commit -m "Add new feature"`
+4. **Push** to branch: `git push origin feature/new-feature`
+5. **Submit** a Pull Request
+
+### Code Guidelines
+- Follow PEP 8 for Python code
+- Use meaningful variable names
+- Add comments for complex logic
+- Test before submitting PR
 
 ---
 
 ## License
 
-This project is licensed under the [LICENSE_NAME] License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** - see LICENSE file for details.
 
-**Common License Options:**
-- MIT License (Permissive, widely used)
-- Apache 2.0 (Permissive with patent grant)
-- GPL v3 (Copyleft, requires derivative works to be open source)
+CampusConnect is free and open-source software. Feel free to use, modify, and distribute!
 
 ---
 
-Made with ❤️ at TinkerHub
+## Contact & Support
+
+For questions, issues, or suggestions:
+
+**📧 Email:** support@campusconnect.edu
+
+**📍 Location:** [Your College], India
+
+**🎓 College:** [Your Institution Name]
+
+**👨‍💼 Team Lead:** [Your Name]
+
+---
+
+## Acknowledgments
+
+- 🙏 Flask and Python community
+- 🙏 Bootstrap framework team
+- 🙏 College administration and support
+- 🙏 All contributors and testers
+- 🙏 TinkerHub for guidance
+
+---
+
+## Project Links
+
+- **Repository:** [GitHub Link]
+- **Issues:** Report bugs here
+- **Discussions:** Ask questions and suggest features
+- **Wiki:** Extended documentation
+
+---
+
+<p align="center">
+  <strong style="font-size: 18px;">✨ CampusConnect - Never Miss a Campus Event! ✨</strong>
+  <br>
+  <strong>Built with ❤️ for Campus Community</strong>
+  <br>
+  <strong>v1.0 • February 2026</strong>
+</p>

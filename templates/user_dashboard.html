@@ -242,7 +242,7 @@
       <div class="brand" style="font-size:22px;">CampusConnect</div>
 
       <div class="d-flex align-items-center gap-3">
-        <a class="btn btn-outline-dark" href="/user">Home</a>
+        <a class="btn btn-outline-dark" href="/user-dashboard">Home</a>
 
         <select class="form-select" id="domainFilter" style="min-width:170px;">
           <option value="All" selected>All</option>
@@ -253,6 +253,7 @@
         </select>
 
         <a class="btn btn-outline-dark" href="/bookmarks">Bookmarks</a>
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
       </div>
     </div>
   </nav>
@@ -316,6 +317,17 @@
   <script>
     let eventsById = {};
     let toastTimer = null;
+
+    // ✅ Logout function
+    async function logout(){
+      try {
+        await fetch("/api/auth/logout", { method: "POST" });
+        window.location.href = "/login";
+      } catch (e) {
+        console.error(e);
+        window.location.href = "/login";
+      }
+    }
 
     function showToast(text, type="success"){
       const el = document.getElementById("toastMsg");

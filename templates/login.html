@@ -193,7 +193,7 @@ padding:40px;
 <div class="left">
     <div class="left-content">
         <h1>Never Miss an Event Again!</h1>
-        <img src="PIC.png" alt="Campus Illustration">
+        <img src="/static/PIC.png" alt="Campus Illustration">
         <p>All Your Campus Events in One Place</p>
     </div>
 </div>
@@ -254,7 +254,7 @@ function showLogin(){
 container.classList.remove("active");
 }
 
-function signup(){
+async function signup(){
 const phone=document.getElementById("signupPhone").value.trim();
 const password=document.getElementById("signupPassword").value.trim();
 const message=document.getElementById("signupMessage");
@@ -271,40 +271,61 @@ message.innerText="Password must be at least 6 characters.";
 return;
 }
 
-let users=JSON.parse(localStorage.getItem("users"))||[];
-const existingUser=users.find(user=>user.phone===phone);
+try {
+  const response = await fetch("/api/auth/signup", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone, password })
+  });
 
-if(existingUser){
-message.style.color="red";
-message.innerText="Phone number already registered!";
-return;
+  const data = await response.json();
+
+  if(response.ok){
+    message.style.color="green";
+    message.innerText="Account created successfully!";
+    setTimeout(() => showLogin(), 1500);
+  } else {
+    message.style.color="red";
+    message.innerText=data.error || "Signup failed";
+  }
+} catch (err) {
+  message.style.color="red";
+  message.innerText="Network error. Try again.";
+}
 }
 
-users.push({phone,password});
-localStorage.setItem("users",JSON.stringify(users));
-
-message.style.color="green";
-message.innerText="Account created successfully!";
-
-setTimeout(()=>showLogin(),1500);
-}
-
-function login(){
+async function login(){
 const phone=document.getElementById("loginPhone").value.trim();
 const password=document.getElementById("loginPassword").value.trim();
 const message=document.getElementById("loginMessage");
 
-let users=JSON.parse(localStorage.getItem("users"))||[];
-const validUser=users.find(user=>user.phone===phone&&user.password===password);
-
-if(validUser){
-message.style.color="green";
-message.innerText="Login successful!";
-localStorage.setItem("loggedInUser",phone);
-setTimeout(()=>window.location.href="index.html",1500);
-}else{
+if(phone===""||password===""){
 message.style.color="red";
-message.innerText="Invalid phone or password.";
+message.innerText="Please fill all fields.";
+return;
+}
+
+try {
+  const response = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone, password })
+  });
+
+  const data = await response.json();
+
+  if(response.ok){
+    message.style.color="green";
+    message.innerText="Login successful!";
+    localStorage.setItem("loggedInUser", phone);
+    setTimeout(() => window.location.href="/user-dashboard", 1500);
+  } else {
+    message.style.color="red";
+    message.innerText=data.error || "Login failed";
+  }
+} catch (err) {
+  message.style.color="red";
+  message.innerText="Network error. Try again.";
 }
 }
 
