@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusConnect - Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#f4f8ff,#eaf3ff);
+overflow:hidden;
+}
+
+.container{
+width:950px;
+height:550px;
+background:white;
+border-radius:20px;
+display:flex;
+overflow:hidden;
+box-shadow:0 15px 40px rgba(0,0,0,0.1);
+position:relative;
+}
+
+/* LEFT SIDE */
+.left{
+width:50%;
+background:#e8f4ff;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:40px;
+transition:0.6s ease;
+}
+
+.container.active .left{
+transform:translateX(100%);
+}
+
+.left-content{
+text-align:center;
+}
+
+.left-content h1{
+font-size:28px;
+font-weight:700;
+color:#1d3557;
+margin-bottom:10px;
+}
+
+.left-content p{
+font-size:15px;
+color:#457b9d;
+margin-bottom:25px;
+}
+
+.left-content img{
+width:85%;
+max-width:380px;
+}
+
+/* RIGHT SIDE */
+.right{
+width:50%;
+padding:60px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+transition:0.6s ease;
+position:relative;
+overflow:hidden;   /* 🔥 FIXED */
+}
+
+.container.active .right{
+transform:translateX(-100%);
+}
+
+/* FORM WRAPPER */
+.form-wrapper{
+width:100%;
+overflow:hidden;   /* 🔥 IMPORTANT */
+}
+
+/* SLIDER */
+.forms{
+display:flex;
+width:200%;
+transition:0.6s ease;   /* 🔥 SMOOTH SLIDE */
+}
+
+.container.active .forms{
+transform:translateX(-50%);
+}
+
+.form-box{
+width:50%;
+}
+
+/* TEXT */
+h2{
+font-weight:600;
+margin-bottom:30px;
+color:#1d3557;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-bottom:18px;
+border-radius:8px;
+border:1px solid #ddd;
+font-size:14px;
+}
+
+input:focus{
+outline:none;
+border-color:#3aa6ff;
+box-shadow:0 0 0 2px rgba(58,166,255,0.2);
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#3aa6ff;
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#1d8ae6;
+}
+
+.switch{
+margin-top:15px;
+font-size:14px;
+}
+
+.switch span{
+color:#3aa6ff;
+cursor:pointer;
+font-weight:600;
+}
+
+.message{
+margin-top:10px;
+font-size:14px;
+}
+
+/* Responsive */
+@media(max-width:900px){
+.container{
+flex-direction:column;
+height:auto;
+width:90%;
+}
+
+.left{
+display:none;
+}
+
+.right{
+width:100%;
+padding:40px;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container" id="container">
+
+<!-- LEFT SIDE -->
+<div class="left">
+    <div class="left-content">
+        <h1>Never Miss an Event Again!</h1>
+        <img src="PIC.png" alt="Campus Illustration">
+        <p>All Your Campus Events in One Place</p>
+    </div>
+</div>
+
+<!-- RIGHT SIDE -->
+<div class="right">
+
+<div class="form-wrapper">
+<div class="forms">
+
+<!-- LOGIN -->
+<div class="form-box">
+<h2>User Login</h2>
+
+<input type="text" id="loginPhone" placeholder="Phone Number">
+<input type="password" id="loginPassword" placeholder="Password">
+
+<button onclick="login()">Sign In</button>
+<p class="message" id="loginMessage"></p>
+
+<div class="switch">
+Don't have an account?
+<span onclick="showSignup()">Sign up</span>
+</div>
+</div>
+
+<!-- SIGNUP -->
+<div class="form-box">
+<h2>Create Account</h2>
+
+<input type="text" id="signupPhone" placeholder="Phone Number">
+<input type="password" id="signupPassword" placeholder="Password (min 6 chars)">
+
+<button onclick="signup()">Create Account</button>
+<p class="message" id="signupMessage"></p>
+
+<div class="switch">
+Already have an account?
+<span onclick="showLogin()">Sign in</span>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+const container=document.getElementById("container");
+
+function showSignup(){
+container.classList.add("active");
+}
+
+function showLogin(){
+container.classList.remove("active");
+}
+
+function signup(){
+const phone=document.getElementById("signupPhone").value.trim();
+const password=document.getElementById("signupPassword").value.trim();
+const message=document.getElementById("signupMessage");
+
+if(phone===""||password===""){
+message.style.color="red";
+message.innerText="Please fill all fields.";
+return;
+}
+
+if(password.length<6){
+message.style.color="red";
+message.innerText="Password must be at least 6 characters.";
+return;
+}
+
+let users=JSON.parse(localStorage.getItem("users"))||[];
+const existingUser=users.find(user=>user.phone===phone);
+
+if(existingUser){
+message.style.color="red";
+message.innerText="Phone number already registered!";
+return;
+}
+
+users.push({phone,password});
+localStorage.setItem("users",JSON.stringify(users));
+
+message.style.color="green";
+message.innerText="Account created successfully!";
+
+setTimeout(()=>showLogin(),1500);
+}
+
+function login(){
+const phone=document.getElementById("loginPhone").value.trim();
+const password=document.getElementById("loginPassword").value.trim();
+const message=document.getElementById("loginMessage");
+
+let users=JSON.parse(localStorage.getItem("users"))||[];
+const validUser=users.find(user=>user.phone===phone&&user.password===password);
+
+if(validUser){
+message.style.color="green";
+message.innerText="Login successful!";
+localStorage.setItem("loggedInUser",phone);
+setTimeout(()=>window.location.href="index.html",1500);
+}else{
+message.style.color="red";
+message.innerText="Invalid phone or password.";
+}
+}
+
+</script>
+
+</body>
+</html>

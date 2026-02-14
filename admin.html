@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusConnect - Admin Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#f4f8ff,#eaf3ff);
+}
+
+.container{
+width:950px;
+height:550px;
+background:white;
+border-radius:20px;
+display:flex;
+overflow:hidden;
+box-shadow:0 15px 40px rgba(0,0,0,0.1);
+}
+
+/* LEFT SIDE */
+.left{
+width:50%;
+background:#e8f4ff;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:40px;
+}
+
+.left-content{
+text-align:center;
+}
+
+.left-content h1{
+font-size:28px;
+font-weight:700;
+color:#1d3557;
+margin-bottom:15px;
+}
+
+.left-content p{
+font-size:15px;
+color:#457b9d;
+margin-bottom:25px;
+}
+
+.left-content img{
+width:85%;
+max-width:380px;
+}
+
+/* RIGHT SIDE */
+.right{
+width:50%;
+padding:60px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+h2{
+font-weight:600;
+margin-bottom:30px;
+color:#1d3557;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-bottom:18px;
+border-radius:8px;
+border:1px solid #ddd;
+font-size:14px;
+}
+
+input:focus{
+outline:none;
+border-color:#3aa6ff;
+box-shadow:0 0 0 2px rgba(58,166,255,0.2);
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#3aa6ff;
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#1d8ae6;
+}
+
+.message{
+margin-top:15px;
+font-size:14px;
+}
+
+/* Responsive */
+@media(max-width:900px){
+.container{
+flex-direction:column;
+height:auto;
+width:90%;
+}
+
+.left{
+display:none;
+}
+
+.right{
+width:100%;
+padding:40px;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LEFT SIDE -->
+<div class="left">
+    <div class="left-content">
+        <h1>Admin Panel Access</h1>
+        <img src="admin.png" alt="Campus Illustration">
+        <p>Manage and Organize Campus Events Easily</p>
+    </div>
+</div>
+
+<!-- RIGHT SIDE -->
+<div class="right">
+
+<h2>Admin Login</h2>
+
+<input type="text" id="adminUsername" placeholder="Username">
+<input type="password" id="adminPassword" placeholder="Password">
+
+<button onclick="adminLogin()">Login</button>
+
+<p class="message" id="adminMessage"></p>
+
+</div>
+
+</div>
+
+<script>
+
+function adminLogin(){
+
+const username = document.getElementById("adminUsername").value.trim();
+const password = document.getElementById("adminPassword").value.trim();
+const message = document.getElementById("adminMessage");
+
+/* Change these */
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "12345";
+
+if(username === ADMIN_USER && password === ADMIN_PASS){
+message.style.color = "green";
+message.innerText = "Login successful!";
+setTimeout(()=>{
+window.location.href="admin-dashboard.html";
+},1000);
+}else{
+message.style.color = "red";
+message.innerText = "Invalid credentials!";
+}
+
+}
+
+</script>
+
+</body>
+</html>
