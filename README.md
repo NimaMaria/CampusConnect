@@ -129,11 +129,3 @@ Built for Hackathon • February 2026
 
 ---
 
-This version is:
-
-* ✅ Clean
-* ✅ Professional
-* ✅ Easy to read in 2–3 minutes
-* ✅ Perfect for judges
-
-If you want, I can also make a **super short 1-page README** (ultra minimal) or a **presentation-ready description for pitching** 👀✨
