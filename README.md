@@ -34,6 +34,11 @@ CampusConnect provides:
 
 ---
 
+## 📹 Demo Video
+
+Watch our detailed explanation video:
+[CampusConnect Demo Video](https://drive.google.com/file/d/1azgnTlBV0ngKoGawKa07wqTNuJqIpcuw/view?usp=drive_link)
+
 ## 🛠 Tech Stack
 
 **Frontend:** HTML5, CSS3, JavaScript, Bootstrap 5
